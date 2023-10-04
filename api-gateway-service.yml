@@ -4,10 +4,14 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: USER-SERVICE
-          uri: lb://USER-SERVICE
+        - id: AUTH-SERVICE
+          uri: lb://AUTH-SERVICE
           predicates:
             - Path= /api/user/**
+        - id: AUTH-SERVICE
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path= /api/authenticate/**
         - id: PROFILE-SERVICE
           uri: lb://PROFILE-SERVICE
           predicates:
@@ -30,6 +34,10 @@ management:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8762/eureka/
+      defaultZone: http://localhost:8761/eureka/
   instance:
     lease-renewal-interval-in-seconds: 30
+jwt:
+  secret: mySecretKey
+  expireMs: 120000
+  refrEshexpireMs: 120000
